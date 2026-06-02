@@ -28,4 +28,17 @@ public class PostService {
 
         return postRepository.save(post);
     }
+
+    public Post updatePost(
+            Long postId,
+            String title,
+            String content
+    ) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        post.update(title, content);
+
+        return postRepository.save(post);
+    }
 }

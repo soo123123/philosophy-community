@@ -10,6 +10,9 @@ import com.example.philosophycommunity.post.dto.PostCreateRequestDto;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import org.springframework.web.bind.annotation.PutMapping;
+import com.example.philosophycommunity.post.dto.PostUpdateRequestDto;
+
 import java.util.List;
 
 @RestController
@@ -35,6 +38,18 @@ public class PostController {
             @RequestBody PostCreateRequestDto requestDto
     ) {
         return postService.createPost(
+                requestDto.getTitle(),
+                requestDto.getContent()
+        );
+    }
+
+    @PutMapping("/api/posts/{postId}")
+    public Post updatePost(
+            @PathVariable Long postId,
+            @RequestBody PostUpdateRequestDto requestDto
+    ) {
+        return postService.updatePost(
+                postId,
                 requestDto.getTitle(),
                 requestDto.getContent()
         );
