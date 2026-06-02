@@ -17,3 +17,13 @@ export const getPost = async (postId) => {
 
     return response.data;
 };
+
+export const createPost = async (postData) => {
+
+    const response = await axios.post(
+        `${API_BASE_URL}/api/posts`,
+        postData
+    );
+
+    return response.data;
+};
