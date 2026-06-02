@@ -3,11 +3,14 @@ package com.example.philosophycommunity.post.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+//import lombok.Builder;
 
 @Entity
 @Getter
 @NoArgsConstructor
+//@Builder
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -16,4 +19,9 @@ public class Post {
 
     @Column(columnDefinition = "TEXT")
     private String content;
+
+    public Post(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
 }

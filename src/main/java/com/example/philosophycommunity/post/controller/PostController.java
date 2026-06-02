@@ -3,7 +3,12 @@ package com.example.philosophycommunity.post.controller;
 import com.example.philosophycommunity.post.entity.Post;
 import com.example.philosophycommunity.post.service.PostService;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.example.philosophycommunity.post.dto.PostCreateRequestDto;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -18,5 +23,20 @@ public class PostController {
     @GetMapping("/api/posts")
     public List<Post> getPosts() {
         return postService.findAllPosts();
+    }
+
+    @GetMapping("/api/posts/{postId}")
+    public Post getPost(@PathVariable Long postId) {
+        return postService.findPostById(postId);
+    }
+
+    @PostMapping("/api/posts")
+    public Post createPost(
+            @RequestBody PostCreateRequestDto requestDto
+    ) {
+        return postService.createPost(
+                requestDto.getTitle(),
+                requestDto.getContent()
+        );
     }
 }
