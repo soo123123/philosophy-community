@@ -1,21 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPosts } from "../api/postApi";
 
 export default function PostListPage() {
+
+    const [posts, setPosts] = useState([]);
+
     useEffect(() => {
             fetchPosts();
         }, []);
 
     const fetchPosts = async () => {
         try {
-            const data = await getPosts();
+            const response = await getPosts();
 
-            alert("API 호출 성공");
+            setPosts(response.data);
 
-            console.log(data);
         } catch (error) {
-            alert("API 호출 실패");
-
             console.error(error);
         }
     };
@@ -23,6 +23,12 @@ export default function PostListPage() {
     return (
         <div>
             <h1>게시글 목록</h1>
+
+            {posts.map((post) => (
+                <div key={post.postId}>
+                    <h3>{post.title}</h3>
+                </div>
+            ))}
         </div>
     );
 }
