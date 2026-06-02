@@ -1,9 +1,28 @@
+import { useEffect } from "react";
+import { getPosts } from "../api/postApi";
+
 export default function PostListPage() {
-    console.log("PostListPage 렌더링");
+    useEffect(() => {
+            fetchPosts();
+        }, []);
+
+    const fetchPosts = async () => {
+        try {
+            const data = await getPosts();
+
+            alert("API 호출 성공");
+
+            console.log(data);
+        } catch (error) {
+            alert("API 호출 실패");
+
+            console.error(error);
+        }
+    };
 
     return (
-        <div style={{ color: "red", fontSize: "50px" }}>
-            게시글 목록
+        <div>
+            <h1>게시글 목록</h1>
         </div>
     );
 }
