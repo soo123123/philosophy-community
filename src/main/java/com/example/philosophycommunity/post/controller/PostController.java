@@ -1,5 +1,6 @@
 package com.example.philosophycommunity.post.controller;
 
+import com.example.philosophycommunity.common.response.ApiResponse;
 import com.example.philosophycommunity.post.dto.PostListResponseDto;
 import com.example.philosophycommunity.post.dto.PostResponseDto;
 import com.example.philosophycommunity.post.entity.Post;
@@ -28,13 +29,17 @@ public class PostController {
     }
 
     @GetMapping("/api/posts")
-    public List<PostListResponseDto> getPosts() {
-        return postService.findPosts();
+    public ApiResponse<List<PostListResponseDto>> getPosts() {
+        return ApiResponse.success(
+                postService.findPosts()
+        );
     }
 
     @GetMapping("/api/posts/{postId}")
-    public PostResponseDto getPost(@PathVariable Long postId) {
-        return postService.findPostById(postId);
+    public ApiResponse<PostResponseDto> getPost(@PathVariable Long postId) {
+        return ApiResponse.success(
+                postService.findPostById(postId)
+        );
     }
 
     @PostMapping("/api/posts")
