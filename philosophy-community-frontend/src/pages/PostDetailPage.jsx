@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getPost } from "../api/postApi";
 
+import { Link } from "react-router-dom";
+
 export default function PostDetailPage() {
     const { postId } = useParams();
 
@@ -29,6 +31,9 @@ export default function PostDetailPage() {
         <div>
             <h1>{post.title}</h1>
             <p>{post.content}</p>
+            <Link to={`/posts/edit/${post.postId}`}>
+                수정
+            </Link>
         </div>
     );
 }
