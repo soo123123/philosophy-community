@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import com.example.philosophycommunity.post.dto.PostUpdateRequestDto;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+
 import java.util.List;
 
 @RestController
@@ -53,5 +55,14 @@ public class PostController {
                 requestDto.getTitle(),
                 requestDto.getContent()
         );
+    }
+
+    @DeleteMapping("/api/posts/{postId}")
+    public String deletePost(
+            @PathVariable Long postId
+    ) {
+        postService.deletePost(postId);
+
+        return "게시글이 삭제되었습니다.";
     }
 }

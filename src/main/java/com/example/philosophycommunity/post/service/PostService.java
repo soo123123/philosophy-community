@@ -41,4 +41,11 @@ public class PostService {
 
         return postRepository.save(post);
     }
+
+    public void deletePost(Long postId) {
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        postRepository.delete(post);
+    }
 }
