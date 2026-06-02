@@ -27,3 +27,13 @@ export const createPost = async (postData) => {
 
     return response.data;
 };
+
+export const updatePost = async (postId, postData) => {
+
+    const response = await axios.put(
+        `${API_BASE_URL}/api/posts/${postId}`,
+        postData
+    );
+
+    return response.data;
+};
