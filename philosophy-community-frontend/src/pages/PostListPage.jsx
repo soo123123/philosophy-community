@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPosts } from "../api/postApi";
+import PostList from "../components/PostList";
 
 export default function PostListPage() {
 
@@ -24,11 +25,7 @@ export default function PostListPage() {
         <div>
             <h1>게시글 목록</h1>
 
-            {posts.map((post) => (
-                <div key={post.postId}>
-                    <h3>{post.title}</h3>
-                </div>
-            ))}
+            <PostList posts={posts} />
         </div>
     );
 }
