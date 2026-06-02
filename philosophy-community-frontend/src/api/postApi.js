@@ -37,3 +37,12 @@ export const updatePost = async (postId, postData) => {
 
     return response.data;
 };
+
+export const deletePost = async (postId) => {
+
+    const response = await axios.delete(
+        `${API_BASE_URL}/api/posts/${postId}`
+    );
+
+    return response.data;
+};
