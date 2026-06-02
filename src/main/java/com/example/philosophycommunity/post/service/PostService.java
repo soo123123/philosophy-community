@@ -1,5 +1,7 @@
 package com.example.philosophycommunity.post.service;
 
+import com.example.philosophycommunity.post.dto.PostListResponseDto;
+import com.example.philosophycommunity.post.dto.PostResponseDto;
 import com.example.philosophycommunity.post.entity.Post;
 import com.example.philosophycommunity.post.repository.PostRepository;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,18 @@ public class PostService {
         this.postRepository = postRepository;
     }
 
-    public List<Post> findAllPosts() {
-        return postRepository.findAll();
+    public List<PostListResponseDto> findPosts() {
+        return postRepository.findAll()
+                .stream()
+                .map(PostListResponseDto::new)
+                .toList();
     }
 
-    public Post findPostById(Long postId) {
-        return postRepository.findById(postId)
+    public PostResponseDto findPostById(Long postId) {
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
+
+        return new PostResponseDto(post);
     }
 
     public Post createPost(String title, String content) {
