@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+import com.example.philosophycommunity.role.entity.Role;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -28,6 +30,10 @@ public class User {
 
     @Column(nullable = false, unique = true)
     private String nickname;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     private LocalDateTime createdAt;
 
