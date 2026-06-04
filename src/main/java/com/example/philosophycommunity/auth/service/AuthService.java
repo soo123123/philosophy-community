@@ -4,6 +4,7 @@ import com.example.philosophycommunity.auth.dto.SignupRequestDto;
 import com.example.philosophycommunity.role.entity.Role;
 import com.example.philosophycommunity.role.entity.RoleType;
 import com.example.philosophycommunity.role.repository.RoleRepository;
+import com.example.philosophycommunity.security.JwtTokenProvider;
 import com.example.philosophycommunity.user.entity.User;
 import com.example.philosophycommunity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public void signup(SignupRequestDto requestDto) {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
@@ -60,7 +62,10 @@ public class AuthService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        return new LoginResponseDto("login-success");
+        String accessToken =
+                jwtTokenProvider.generateToken(user.getEmail());
+
+        return new LoginResponseDto(accessToken);
     }
 
 }
