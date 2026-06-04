@@ -8,8 +8,10 @@ import com.example.philosophycommunity.user.entity.User;
 import com.example.philosophycommunity.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
+import com.example.philosophycommunity.auth.dto.LoginRequestDto;
+import com.example.philosophycommunity.auth.dto.LoginResponseDto;
+import com.example.philosophycommunity.user.entity.User;
 
 @Service
 @RequiredArgsConstructor
@@ -40,6 +42,19 @@ public class AuthService {
 
         userRepository.save(user);
 
+    }
+
+    public LoginResponseDto login(LoginRequestDto requestDto) {
+
+        User user = userRepository.findByEmail(requestDto.getEmail())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("존재하지 않는 이메일입니다."));
+
+        if (!user.getPassword().equals(requestDto.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+        }
+
+        return new LoginResponseDto("login-success");
     }
 
 }
