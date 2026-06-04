@@ -13,11 +13,14 @@ import com.example.philosophycommunity.auth.dto.LoginRequestDto;
 import com.example.philosophycommunity.auth.dto.LoginResponseDto;
 import com.example.philosophycommunity.user.entity.User;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void signup(SignupRequestDto requestDto) {
         if (userRepository.existsByEmail(requestDto.getEmail())) {
@@ -33,7 +36,7 @@ public class AuthService {
 
         User user = User.builder()
                 .email(requestDto.getEmail())
-                .password(requestDto.getPassword())
+                .password(passwordEncoder.encode(requestDto.getPassword()))
                 .nickname(requestDto.getNickname())
                 .role(userRole)
                 .createdAt(LocalDateTime.now())
@@ -50,7 +53,10 @@ public class AuthService {
                 .orElseThrow(() ->
                         new IllegalArgumentException("존재하지 않는 이메일입니다."));
 
-        if (!user.getPassword().equals(requestDto.getPassword())) {
+        if (!passwordEncoder.matches(
+                requestDto.getPassword(),
+                user.getPassword())) {
+
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
