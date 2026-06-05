@@ -4,9 +4,11 @@ import com.example.philosophycommunity.auth.dto.SignupRequestDto;
 import com.example.philosophycommunity.auth.service.AuthService;
 import com.example.philosophycommunity.common.response.ApiResponse;
 import lombok.RequiredArgsConstructor;
+//import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.web.bind.annotation.*;
 import com.example.philosophycommunity.auth.dto.LoginRequestDto;
 import com.example.philosophycommunity.auth.dto.LoginResponseDto;
+import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -31,5 +33,11 @@ public class AuthController {
         LoginResponseDto responseDto = authService.login(requestDto);
 
         return ApiResponse.success(responseDto);
+    }
+
+    @GetMapping("/me")
+    public ApiResponse<String> getMyInfo(
+            Authentication authentication) {
+        return ApiResponse.success(authentication.getName());
     }
 }
