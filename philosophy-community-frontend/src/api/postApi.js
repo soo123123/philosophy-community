@@ -1,9 +1,9 @@
-import axios from "axios";
+import axiosInstance from "./axiosInstance";
 
 const API_BASE_URL = "http://localhost:8080";
 
 export const getPosts = async () => {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
         `${API_BASE_URL}/api/posts`
     );
 
@@ -11,7 +11,7 @@ export const getPosts = async () => {
 };
 
 export const getPost = async (postId) => {
-    const response = await axios.get(
+    const response = await axiosInstance.get(
         `${API_BASE_URL}/api/posts/${postId}`
     );
 
@@ -20,7 +20,7 @@ export const getPost = async (postId) => {
 
 export const createPost = async (postData) => {
 
-    const response = await axios.post(
+    const response = await axiosInstance.post(
         `${API_BASE_URL}/api/posts`,
         postData
     );
@@ -30,7 +30,7 @@ export const createPost = async (postData) => {
 
 export const updatePost = async (postId, postData) => {
 
-    const response = await axios.put(
+    const response = await axiosInstance.put(
         `${API_BASE_URL}/api/posts/${postId}`,
         postData
     );
@@ -40,7 +40,7 @@ export const updatePost = async (postId, postData) => {
 
 export const deletePost = async (postId) => {
 
-    const response = await axios.delete(
+    const response = await axiosInstance.delete(
         `${API_BASE_URL}/api/posts/${postId}`
     );
 

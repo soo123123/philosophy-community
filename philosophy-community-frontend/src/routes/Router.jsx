@@ -4,12 +4,16 @@ import PostListPage from "../pages/PostListPage";
 import PostDetailPage from "../pages/PostDetailPage";
 import PostCreatePage from "../pages/PostCreatePage";
 import PostEditPage from "../pages/PostEditPage";
+import LoginPage from "../pages/LoginPage";
 
 export default function Router() {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<PostListPage />} />
+
+                <Route path="/login" element={<LoginPage />} />
+
                 <Route path="/posts/:postId" element={<PostDetailPage />} />
                 <Route path="/posts/create" element={<PostCreatePage />} />
                 <Route path="/posts/edit/:postId" element={<PostEditPage />} />
