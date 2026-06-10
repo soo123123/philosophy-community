@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { getCategories } from "../api/categoryApi";
 import {
     getPost,
     updatePost
 } from "../api/postApi";
 
 import PostEditor from "../components/PostEditor";
+import Navbar from "../components/Navbar";
 
 export default function PostEditPage() {
 
@@ -13,28 +15,37 @@ export default function PostEditPage() {
 
     const navigate = useNavigate();
 
+    const [categories, setCategories] = useState([]);
+    const [categoryId, setCategoryId] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
 
     useEffect(() => {
+        const fetchCategories = async () => {
+            const response = await getCategories();
+            setCategories(response.data);
+        };
+
+        const fetchPost = async () => {
+
+            try {
+
+                const response = await getPost(postId);
+
+                setCategoryId(response.data.categoryId);
+                setTitle(response.data.title);
+                setContent(response.data.content);
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+        };
+
+        fetchCategories();
         fetchPost();
-    }, []);
-
-    const fetchPost = async () => {
-
-        try {
-
-            const response = await getPost(postId);
-
-            setTitle(response.data.title);
-            setContent(response.data.content);
-
-        } catch (error) {
-
-            console.error(error);
-
-        }
-    };
+    }, [postId]);
 
     const handleSubmit = async (e) => {
 
@@ -45,6 +56,7 @@ export default function PostEditPage() {
             await updatePost(
                 postId,
                 {
+                    categoryId,
                     title,
                     content
                 }
@@ -60,17 +72,23 @@ export default function PostEditPage() {
     };
 
     return (
-        <div>
-            <h1>게시글 수정</h1>
+        <>
+            <Navbar />
+            <main className="form-page">
+                <h1>게시글 수정</h1>
 
-            <PostEditor
-                title={title}
-                content={content}
-                onTitleChange={setTitle}
-                onContentChange={setContent}
-                onSubmit={handleSubmit}
-                buttonText="수정"
-            />
-        </div>
+                <PostEditor
+                    categories={categories}
+                    categoryId={categoryId}
+                    title={title}
+                    content={content}
+                    onCategoryChange={setCategoryId}
+                    onTitleChange={setTitle}
+                    onContentChange={setContent}
+                    onSubmit={handleSubmit}
+                    buttonText="수정"
+                />
+            </main>
+        </>
     );
 }

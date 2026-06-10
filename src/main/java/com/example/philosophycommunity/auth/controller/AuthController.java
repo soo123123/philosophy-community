@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.example.philosophycommunity.auth.dto.LoginRequestDto;
 import com.example.philosophycommunity.auth.dto.LoginResponseDto;
-import org.springframework.security.core.Authentication;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -35,9 +34,4 @@ public class AuthController {
         return ApiResponse.success(responseDto);
     }
 
-    @GetMapping("/me")
-    public ApiResponse<String> getMyInfo(
-            Authentication authentication) {
-        return ApiResponse.success(authentication.getName());
-    }
 }

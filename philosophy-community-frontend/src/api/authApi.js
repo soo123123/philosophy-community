@@ -1,6 +1,6 @@
 import axiosInstance from "./axiosInstance";
 
-export const login = async (loginData) => {
+export const loginUser = async (loginData) => {
 
     const response =
         await axiosInstance.post(
@@ -11,12 +11,30 @@ export const login = async (loginData) => {
     return response.data;
 };
 
-export const getMyInfo = async () => {
+export const signupUser = async (signupData) => {
 
     const response =
-        await axiosInstance.get(
-            "/auth/me"
+        await axiosInstance.post(
+            "/auth/signup",
+            signupData
         );
 
     return response.data;
 };
+
+export const getMyProfile = async () => {
+
+    const response =
+        await axiosInstance.get(
+            "/users/me"
+        );
+
+    return response.data;
+};
+
+export const logoutUser = () => {
+    localStorage.removeItem("accessToken");
+};
+
+export const login = loginUser;
+export const getMyInfo = getMyProfile;

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import com.example.philosophycommunity.role.entity.Role;
 
 @Entity
-@Table(name = "users")
+@Table(name = "user")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor

@@ -3,8 +3,9 @@ package com.example.philosophycommunity.post.controller;
 import com.example.philosophycommunity.common.response.ApiResponse;
 import com.example.philosophycommunity.post.dto.PostListResponseDto;
 import com.example.philosophycommunity.post.dto.PostResponseDto;
-import com.example.philosophycommunity.post.entity.Post;
 import com.example.philosophycommunity.post.service.PostService;
+import com.example.philosophycommunity.security.CustomUserDetails;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,33 +44,35 @@ public class PostController {
     }
 
     @PostMapping("/api/posts")
-    public Post createPost(
-            @RequestBody PostCreateRequestDto requestDto
+    public ApiResponse<PostResponseDto> createPost(
+            @RequestBody PostCreateRequestDto requestDto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        return postService.createPost(
-                requestDto.getTitle(),
-                requestDto.getContent()
+        return ApiResponse.success(
+                postService.createPost(requestDto, userDetails)
         );
     }
 
     @PutMapping("/api/posts/{postId}")
-    public Post updatePost(
+    public ApiResponse<PostResponseDto> updatePost(
             @PathVariable Long postId,
-            @RequestBody PostUpdateRequestDto requestDto
+            @RequestBody PostUpdateRequestDto requestDto,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        return postService.updatePost(
+        return ApiResponse.success(postService.updatePost(
                 postId,
-                requestDto.getTitle(),
-                requestDto.getContent()
-        );
+                requestDto,
+                userDetails
+        ));
     }
 
     @DeleteMapping("/api/posts/{postId}")
-    public String deletePost(
-            @PathVariable Long postId
+    public ApiResponse<String> deletePost(
+            @PathVariable Long postId,
+            @AuthenticationPrincipal CustomUserDetails userDetails
     ) {
-        postService.deletePost(postId);
+        postService.deletePost(postId, userDetails);
 
-        return "게시글이 삭제되었습니다.";
+        return ApiResponse.success("게시글이 삭제되었습니다.");
     }
 }

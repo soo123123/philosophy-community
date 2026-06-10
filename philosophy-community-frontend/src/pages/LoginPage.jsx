@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { login } from "../api/authApi";
+import { Link, useNavigate } from "react-router-dom";
+import { loginUser } from "../api/authApi";
+import LoginForm from "../components/LoginForm";
+import Navbar from "../components/Navbar";
 
 function LoginPage() {
 
@@ -13,7 +15,7 @@ function LoginPage() {
         e.preventDefault();
 
         try {
-            const response = await login({
+            const response = await loginUser({
                 email,
                 password
             });
@@ -31,25 +33,21 @@ function LoginPage() {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="email"
-                placeholder="이메일"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <input
-                type="password"
-                placeholder="비밀번호"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button type="submit">
-                로그인
-            </button>
-        </form>
+        <>
+            <Navbar />
+            <main className="auth-page">
+                <LoginForm
+                    email={email}
+                    password={password}
+                    onEmailChange={setEmail}
+                    onPasswordChange={setPassword}
+                    onSubmit={handleSubmit}
+                />
+                <p className="auth-link">
+                    계정이 없으신가요? <Link to="/signup">회원가입</Link>
+                </p>
+            </main>
+        </>
     );
 }
 

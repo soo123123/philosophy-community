@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import com.example.philosophycommunity.auth.dto.LoginRequestDto;
 import com.example.philosophycommunity.auth.dto.LoginResponseDto;
-import com.example.philosophycommunity.user.entity.User;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Service
