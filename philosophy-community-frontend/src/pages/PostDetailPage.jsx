@@ -18,6 +18,7 @@ export default function PostDetailPage() {
     useEffect(() => {
         const fetchPost = async () => {
             try {
+
                 const response = await getPost(postId);
 
                 setPost(response.data);

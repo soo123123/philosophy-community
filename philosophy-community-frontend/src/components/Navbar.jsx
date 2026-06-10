@@ -18,10 +18,10 @@ export default function Navbar({ currentUser, onLogout }) {
             </Link>
 
             <nav className="nav-links">
-                <Link to="/">홈</Link>
+{/*                 <Link to="/">홈</Link> */}
                 <NavLink to="/">게시판</NavLink>
                 <NavLink to="/notices">공지사항</NavLink>
-                <NavLink to="/categories">카테고리</NavLink>
+{/*                 <NavLink to="/categories">카테고리</NavLink> */}
             </nav>
 
             <div className="nav-actions">

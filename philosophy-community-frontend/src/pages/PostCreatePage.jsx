@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { createPost } from "../api/postApi";
 import { getCategories } from "../api/categoryApi";
+import { getMyProfile } from "../api/authApi";
+
 import PostEditor from "../components/PostEditor";
 import Navbar from "../components/Navbar";
 
@@ -14,15 +16,56 @@ export default function PostCreatePage() {
     const [categoryId, setCategoryId] = useState("");
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
+    const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+
         const fetchCategories = async () => {
-            const response = await getCategories();
-            setCategories(response.data);
-            setCategoryId(response.data[0]?.categoryId ?? "");
+
+            try {
+
+                const response = await getCategories();
+
+                setCategories(response.data);
+                setCategoryId(
+                    response.data[0]?.categoryId ?? ""
+                );
+
+            } catch (error) {
+
+                console.error(error);
+
+            }
+        };
+
+        const fetchMyInfo = async () => {
+
+            if (!localStorage.getItem("accessToken")) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+
+                const response = await getMyProfile();
+
+                setCurrentUser(response.data);
+
+            } catch (error) {
+
+                console.error(error);
+
+            } finally {
+
+                setLoading(false);
+
+            }
         };
 
         fetchCategories();
+        fetchMyInfo();
+
     }, []);
 
     const handleSubmit = async (e) => {
@@ -46,10 +89,19 @@ export default function PostCreatePage() {
         }
     };
 
+    if (loading) {
+        return null;
+    }
+
     return (
         <>
-            <Navbar />
+            <Navbar
+                currentUser={currentUser}
+                onLogout={() => setCurrentUser(null)}
+            />
+
             <main className="form-page">
+
                 <h1>게시글 작성</h1>
 
                 <PostEditor
@@ -63,6 +115,7 @@ export default function PostCreatePage() {
                     onSubmit={handleSubmit}
                     buttonText="등록"
                 />
+
             </main>
         </>
     );

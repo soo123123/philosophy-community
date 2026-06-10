@@ -20,6 +20,7 @@ public class AuthController {
     public ApiResponse<String> signup(
             @RequestBody SignupRequestDto requestDto) {
 
+        System.out.println("회원가입 진입");
         authService.signup(requestDto);
 
         return ApiResponse.success("회원가입이 완료되었습니다.");
